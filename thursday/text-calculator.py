@@ -7,21 +7,21 @@ cur_operator = ''
 
 def calc_screen():
     return f"""
-__________________________
-|                        |
-|  {'0' * (20-len(str(answer))) + str(answer)}  |
-|________________________|""" + (f"""
-|                        |
-|  {' ' * ((20-len(cur_operator)) // 2) + cur_operator + ' ' * ((20-len(cur_operator)) // 2 + (20-len(cur_operator)) % 2)}  |
-|________________________|
-""" if cur_operator != '' else '\n') + """|                        |
-|    Don't know how to   |
-|       perform a        |
-|      calculation?      |
-|________________________|
-|                        |
-|   enter: help (pg #)   |
-|________________________|
+____________________________
+|                          |
+|  {' ' * (22-len(str(answer))) + str(answer)}  |
+|__________________________|""" + (f"""
+|                          |
+|  {' ' * ((22-len(cur_operator)) // 2) + cur_operator + ' ' * ((22-len(cur_operator)) // 2 + (22-len(cur_operator)) % 2)}  |
+|__________________________|
+""" if cur_operator != '' else '\n') + """|                          |
+|     Don't know how to    |
+|        perform a         |
+|       calculation?       |
+|__________________________|
+|                          |
+|    enter: help (pg #)    |
+|__________________________|
 """
 
 def check_enter(enter: str):
@@ -54,6 +54,9 @@ def check_enter(enter: str):
         elif enter == '/' or enter == 'divide':
             cur_operator = 'divide'
             saved_answer = answer
+        elif enter == '**' or enter == '^' or enter == 'exponent':
+            cur_operator = 'exponent'
+            saved_answer = answer
 
 def operate(num1, operator, num2):
     if operator == 'add':
@@ -64,40 +67,71 @@ def operate(num1, operator, num2):
         return num1 * num2
     elif operator == 'divide':
         return num1 / num2
+    elif operator == 'exponent':
+        return num1 ** num2
 
 
 def get_help(page):
     if page == 1:
         print("""
-____________________________
+__________________________________________
 
-        Help Page #1        
-____________________________
+               Help Page #1               
+__________________________________________
 
   Addition:
-----------------------------
+------------------------------------------
   enter: '+' or 'add'
 
 
   Subtraction:
-----------------------------
+------------------------------------------
   enter: '-' or 'subtract'
 
 
   Multiplication:
-----------------------------
+------------------------------------------
   enter: '*' or 'multiply'
 
 
   Division:
-----------------------------
+------------------------------------------
   enter: '/' or 'divide'
+        """)
+    elif page == 2:
+        print("""
+__________________________________________
+
+               Help Page #2               
+__________________________________________
+
+  Exponent:
+------------------------------------------
+  enter: '**' or '^' or 'exponent'
+
+
+  Operation:
+------------------------------------------
+  enter: stuff
+
+
+  Operation:
+------------------------------------------
+  enter: stuff
+
+
+  Operation:
+------------------------------------------
+  enter: stuff
         """)
     else:
         print("""
         Page does not exist.
         """)
     input("Press enter to continue...")
+
+
+
 
 if __name__ == '__main__':
     while is_calc_on:
