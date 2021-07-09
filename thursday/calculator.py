@@ -49,6 +49,21 @@ class Calculator:
         ['**', '^', 'exponent', 'power'],
         "set one number to the power of another"
     )
+    sin_info = CmdInfo(
+        'Sin',
+        ['sin'],
+        "get the trigonometric sin of a number"
+    )
+    cos_info = CmdInfo(
+        'Cosine',
+        ['cos', 'cosine'],
+        "get the trigonometric cosine of a number"
+    )
+    tan_info = CmdInfo(
+        'Tangent',
+        ['tan', 'tangent'],
+        "get the trigonometric tangent of a number"
+    )
     show_help_msg_info = CmdInfo(
         'Show Help Message',
         ['show help msg'],
@@ -79,6 +94,9 @@ class Calculator:
         multiplication_info,
         division_info,
         exponent_info,
+        sin_info,
+        cos_info,
+        tan_info,
         show_help_msg_info,
         show_power_off_msg_info,
         hide_help_msg_info,
@@ -152,10 +170,23 @@ ____________________________
             elif enter in self.exponent_info.enter_options:
                 self.cur_operator = 'exponent'
                 self.saved_answer = self.answer
+            elif enter in self.sin_info.enter_options:
+                self.cur_operator = 'sin'
+                self.saved_answer = self.answer
+                self.answer = self.operate(self.saved_answer, self.cur_operator)
+            elif enter in self.cos_info.enter_options:
+                self.cur_operator = 'cos'
+                self.saved_answer = self.answer
+                self.answer = self.operate(self.saved_answer, self.cur_operator)
+            elif enter in self.tan_info.enter_options:
+                self.cur_operator = 'tan'
+                self.saved_answer = self.answer
+                self.answer = self.operate(self.saved_answer, self.cur_operator)
         return True
 
-    def operate(self, num1, operator, num2):
+    def operate(self, num1, operator, num2=0):
         try:
+            self.cur_operator = ''
             if operator == 'add':
                 return num1 + num2
             elif operator == 'subtract':
@@ -166,6 +197,12 @@ ____________________________
                 return num1 / num2
             elif operator == 'exponent':
                 return num1 ** num2
+            elif operator == 'sin':
+                return np.sin(num1)
+            elif operator == 'cos':
+                return np.cos(num1)
+            elif operator == 'tan':
+                return np.tan(num1)
         except OverflowError:
             input("\nOverflow Error: The resulting value is too large.\nPress enter to continue...")
             return 0
