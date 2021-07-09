@@ -31,7 +31,7 @@ ____________________________
 |       calculation?       |
 |__________________________|
 |                          |
-|    enter: help (pg #)    |
+|  enter: help (# or func) |
 |__________________________|""" + \
 ('\n'  if self.show_power_off_msg else '') if self.show_help_msg else '') + \
 ("""|                          |
@@ -40,11 +40,18 @@ ____________________________
 |__________________________|""" if self.show_power_off_msg else '')
 
     def check_enter(self, enter: str):
-        if enter in cmdinfos.power_off_info.enter_options:
-            return False
-        elif enter[:4] == 'help':
+        if enter[:4] == 'help':
             page = enter[5:]
-            self.get_help(int(page) if page.isdigit() else 1)
+            if page.isnumeric() or page == '':
+                self.get_help(int(page) if page.isdigit() else 1)
+            else:
+                for cmdinfo in cmdinfos.cmdinfos:
+                    if page in cmdinfo.enter_options:
+                        print()
+                        print(cmdinfo)
+                        input("Press enter to continue...")
+        elif enter in cmdinfos.power_off_info.enter_options:
+            return False
         elif enter[:7] == 'setting':
             self.get_settings()
         elif enter in cmdinfos.clear_info.enter_options:
@@ -79,6 +86,11 @@ ____________________________
                 self.is_degree = True
             elif which_mode[0:3] == 'rad':
                 self.is_degree = False
+            else:
+                if self.is_degree:
+                    self.is_degree = False
+                else:
+                    self.is_degree = True
         else:
             self.saved_answer = self.answer
             if len(enter.split(' ')) > 1:
@@ -114,6 +126,8 @@ ____________________________
             elif enter in cmdinfos.natural_log_info.enter_options:
                 self.cur_operator = 'ln'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
+            elif enter in cmdinfos.log_info.enter_options:
+                self.cur_operator = 'log'
         return True
 
     def operate(self, num1, operator, num2=0):
@@ -145,6 +159,8 @@ ____________________________
                 if num1 == 0:
                     raise ZeroDivisionError
                 return np.log(num1)
+            elif operator == 'log':
+                return np.log(num1) / np.log(num2)
         except OverflowError:
             input("\nOverflow Error: The resulting value is too large.\nPress enter to continue...")
             return 0

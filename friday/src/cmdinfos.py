@@ -4,7 +4,7 @@ help_info = CmdInfo(
     'Help',
     ['help', 'help (page #)'],
     "get help on commands",
-    ["help", "help 3", "help 5"]
+    ["help", "help 3", "help log", "help tangent"]
 )
 settings_info = CmdInfo(
     'Settings',
@@ -114,9 +114,15 @@ natural_log_info = CmdInfo(
     "get the natural log of a number",
     ["e ln"]
 )
+log_info = CmdInfo(
+    'Logarithm',
+    ['log', 'logarithm'],
+    "get the log of a number with a specified base",
+    ["e log 1", "100 log 10", "1000 log 10"]
+)
 switch_mode_info = CmdInfo(
     'Switch Mode',
-    ['mode (which mode)'],
+    ['mode', 'mode (which mode)'],
     "switch between degree and radian mode",
     ["mode deg", "mode rad"]
 )
@@ -165,6 +171,7 @@ cmdinfos = [
     cos_info,
     tan_info,
     natural_log_info,
+    log_info,
     switch_mode_info,
     show_help_msg_info,
     show_power_off_msg_info,
