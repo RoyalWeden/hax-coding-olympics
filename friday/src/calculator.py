@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from cmdinfo import CmdInfo
+import cmdinfos
 import extra_math
 
 class Calculator:
@@ -8,137 +9,7 @@ class Calculator:
     saved_answer = 0
     cur_operator = ''
     show_help_msg = True
-    show_power_off_msg = True
-
-    help_info = CmdInfo(
-        'Help',
-        ['help', 'help (page #)'],
-        "get help on commands",
-        ["help", "help 3", "help 5"]
-    )
-    power_off_info = CmdInfo(
-        'Power Off',
-        ['off', 'stop', 'exit'],
-        "powers off calculator",
-        ["off", "exit"]
-    )
-    number_info = CmdInfo(
-        'Number',
-        ['(number)'],
-        "sets number to calculator or use in calculation",
-        ["5", "134"]
-    )
-    addition_info = CmdInfo(
-        'Addition',
-        ['+', 'add', 'plus'],
-        "adds two numbers together",
-        ["3 + 5", "1 plus 1"]
-    )
-    subtraction_info = CmdInfo(
-        'Subtraction',
-        ['-', 'subtract', 'minus'],
-        "subtracts two numbers",
-        ["5 - 9", "100 minus 15"]
-    )
-    multiplication_info = CmdInfo(
-        'Multiplication',
-        ['*', 'multiply', 'times', 'of'],
-        "multiplies two numbers together",
-        ["1 * 34", "13 times 15"]
-    )
-    division_info = CmdInfo(
-        'Division',
-        ['/', 'divide'],
-        "divides two numbers.",
-        ["2 / 6", "15 divide 124"]
-    )
-    exponent_info = CmdInfo(
-        'Exponent',
-        ['**', '^', 'exponent', 'power'],
-        "set one number to the power of another",
-        ["42 ** 2", "2 ^ 8"]
-    )
-    sqrt_info = CmdInfo(
-        'Square Root',
-        ['sqrt', 'squareroot'],
-        "get the square root of a number",
-        ["5 sqrt", "100 sqrt"]
-    )
-    root_info = CmdInfo(
-        'Root',
-        ['root'],
-        "get the root of a number",
-        ["3 root 8", "15 root 225"]
-    )
-    factorial_info = CmdInfo(
-        'Factorial',
-        ['!', 'factorial'],
-        "get the factorial of a number",
-        ["5 !", "10 factorial"]
-    )
-    sin_info = CmdInfo(
-        'Sin',
-        ['sin'],
-        "get the trigonometric sin of a number",
-        ["90 sin"]
-    )
-    cos_info = CmdInfo(
-        'Cosine',
-        ['cos', 'cosine'],
-        "get the trigonometric cosine of a number",
-        ["90 cos"]
-    )
-    tan_info = CmdInfo(
-        'Tangent',
-        ['tan', 'tangent'],
-        "get the trigonometric tangent of a number",
-        ["90 tan"]
-    )
-    show_help_msg_info = CmdInfo(
-        'Show Help Message',
-        ['show help msg'],
-        "shows help message on calculator",
-        ["show help msg"]
-    )
-    hide_help_msg_info = CmdInfo(
-        'Hide Help Message',
-        ['hide help msg'],
-        "hides help message on calculator",
-        ["hide help msg"]
-    )
-    show_power_off_msg_info = CmdInfo(
-        'Show Power Off Message',
-        ['show poweroff msg'],
-        "shows power off message on calculator",
-        ["show poweroff msg"]
-    )
-    hide_power_off_msg_info = CmdInfo(
-        'Hide Power Off Message',
-        ['hide poweroff msg'],
-        "hides power off message on calculator",
-        ["hide poweroff msg"]
-    )
-
-    cmdinfos = [
-        help_info,
-        power_off_info,
-        number_info,
-        addition_info,
-        subtraction_info,
-        multiplication_info,
-        division_info,
-        exponent_info,
-        sqrt_info,
-        root_info,
-        factorial_info,
-        sin_info,
-        cos_info,
-        tan_info,
-        show_help_msg_info,
-        show_power_off_msg_info,
-        hide_help_msg_info,
-        hide_power_off_msg_info
-    ]
+    show_power_off_msg = True    
 
     def __init__(self):
         pass
@@ -168,59 +39,67 @@ ____________________________
 |__________________________|""" if self.show_power_off_msg else '')
 
     def check_enter(self, enter: str):
-        if enter in self.power_off_info.enter_options:
+        if enter in cmdinfos.power_off_info.enter_options:
             return False
         elif enter[:4] == 'help':
             page = enter[5:]
             self.get_help(int(page) if page.isdigit() else 1)
+        elif enter in cmdinfos.clear_info.enter_options:
+            self.answer = self.saved_answer = 0
+            self.cur_operator = ''
+        elif enter in cmdinfos.reset_info.enter_options:
+            self.show_help_msg = True
+            self.show_power_off_msg = True
+            self.check_enter('clear')
         elif enter.isnumeric() or \
             (enter.count('.')==1 and enter.replace('.', '').isnumeric()) or \
             (enter[0]=='-' and (enter[1:].isnumeric() or \
-            enter[1:].count('.')==1 and enter[1:].replace('.', '').isnumeric())):
+            enter[1:].count('.')==1 and enter[1:].replace('.', '').isnumeric())) or \
+            enter == 'e' or enter == 'pi':
             if self.cur_operator != '':
-                self.answer = self.operate(self.saved_answer, self.cur_operator, float(enter))
+                self.answer = self.operate(self.saved_answer, self.cur_operator, extra_math.get_math_val(enter))
             else:
-                self.answer = float(enter)
+                self.answer = extra_math.get_math_val(enter)
             self.cur_operator = ''
         elif 'hide' in enter or 'show' in enter:
-            if enter in self.show_help_msg_info.enter_options:
+            if enter in cmdinfos.show_help_msg_info.enter_options:
                 self.show_help_msg = True
-            elif enter in self.hide_help_msg_info.enter_options:
+            elif enter in cmdinfos.hide_help_msg_info.enter_options:
                 self.show_help_msg = False
-            elif enter in self.show_power_off_msg_info.enter_options:
+            elif enter in cmdinfos.show_power_off_msg_info.enter_options:
                 self.show_power_off_msg = True
-            elif enter in self.hide_power_off_msg_info.enter_options:
+            elif enter in cmdinfos.hide_power_off_msg_info.enter_options:
                 self.show_power_off_msg = False
         else:
             self.saved_answer = self.answer
             if len(enter.split(' ')) > 1:
                 for enteree in enter.split(' '):
                     self.check_enter(enteree)
-            elif enter in self.addition_info.enter_options:
+            elif enter in cmdinfos.addition_info.enter_options:
                 self.cur_operator = 'add'
-            elif enter in self.subtraction_info.enter_options:
+            elif enter in cmdinfos.subtraction_info.enter_options:
                 self.cur_operator = 'subtract'
-            elif enter in self.multiplication_info.enter_options:
+            elif enter in cmdinfos.multiplication_info.enter_options:
                 self.cur_operator = 'multiply'
-            elif enter in self.division_info.enter_options:
+            elif enter in cmdinfos.division_info.enter_options:
                 self.cur_operator = 'divide'
-            elif enter in self.exponent_info.enter_options:
+            elif enter in cmdinfos.exponent_info.enter_options:
                 self.cur_operator = 'exponent'
-            elif enter in self.sqrt_info.enter_options:
+            elif enter in cmdinfos.sqrt_info.enter_options:
                 self.cur_operator = 'sqrt'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
-            elif enter in self.root_info.enter_options:
+            elif enter in cmdinfos.root_info.enter_options:
                 self.cur_operator = 'root'
-            elif enter in self.factorial_info.enter_options:
+            elif enter in cmdinfos.factorial_info.enter_options:
                 self.cur_operator = 'factorial'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
-            elif enter in self.sin_info.enter_options:
+            elif enter in cmdinfos.sin_info.enter_options:
                 self.cur_operator = 'sin'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
-            elif enter in self.cos_info.enter_options:
+            elif enter in cmdinfos.cos_info.enter_options:
                 self.cur_operator = 'cos'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
-            elif enter in self.tan_info.enter_options:
+            elif enter in cmdinfos.tan_info.enter_options:
                 self.cur_operator = 'tan'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
         return True
@@ -264,22 +143,22 @@ ____________________________
             return 0
 
     def get_help(self, page):
-        if page > int(np.ceil(len(self.cmdinfos)/3)):
+        if page > int(np.ceil(len(cmdinfos.cmdinfos)/3)):
             print(f"""
 ___________________________________________________________________________
 
                            Page does not exist
-                          (Total Page Count: {int(np.ceil(len(self.cmdinfos)/3))})         
+                          (Total Page Count: {int(np.ceil(len(cmdinfos.cmdinfos)/3))})         
 ___________________________________________________________________________
 """)
         else:
             print(f"""
 ___________________________________________________________________________
 
-                            Help Page {page} of {int(np.ceil(len(self.cmdinfos)/3))}            
+                            Help Page {page} of {int(np.ceil(len(cmdinfos.cmdinfos)/3))}            
 ___________________________________________________________________________
 ___________________________________________________________________________
 """)
-        for i in range((page-1)*3, len(self.cmdinfos) if page*3>len(self.cmdinfos) else page*3):
-                print(self.cmdinfos[i])
+        for i in range((page-1)*3, len(cmdinfos.cmdinfos) if page*3>len(cmdinfos.cmdinfos) else page*3):
+                print(cmdinfos.cmdinfos[i])
         input("Press enter to continue...")
