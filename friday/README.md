@@ -37,7 +37,7 @@ In the calculator there is an easy way for you to access help for functions:
 : 3 + 3
 ```
 All the above are valid commands, not only for addition. The operator can be replaced with whichever other operations are available. Check out `help` for more information on the available commands.
-## Addition Info
+## Additional Info
 These calculator commands are exectued from left to right, so you may enter a long string of numbers and operators, separated by spaces, to receive an answer.
 #### *Example*
 ```py
