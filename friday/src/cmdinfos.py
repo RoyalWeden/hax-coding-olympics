@@ -6,6 +6,12 @@ help_info = CmdInfo(
     "get help on commands",
     ["help", "help 3", "help 5"]
 )
+settings_info = CmdInfo(
+    'Settings',
+    ['settings'],
+    "get current calculator settings",
+    ["settings"]
+)
 power_off_info = CmdInfo(
     'Power Off',
     ['off', 'stop', 'exit'],
@@ -108,6 +114,12 @@ natural_log_info = CmdInfo(
     "get the natural log of a number",
     ["e ln"]
 )
+switch_mode_info = CmdInfo(
+    'Switch Mode',
+    ['mode (which mode)'],
+    "switch between degree and radian mode",
+    ["mode deg", "mode rad"]
+)
 show_help_msg_info = CmdInfo(
     'Show Help Message',
     ['show help msg'],
@@ -135,6 +147,7 @@ hide_power_off_msg_info = CmdInfo(
 
 cmdinfos = [
     help_info,
+    settings_info,
     power_off_info,
     clear_info,
     reset_info,
@@ -151,6 +164,8 @@ cmdinfos = [
     sin_info,
     cos_info,
     tan_info,
+    natural_log_info,
+    switch_mode_info,
     show_help_msg_info,
     show_power_off_msg_info,
     hide_help_msg_info,

@@ -9,7 +9,8 @@ class Calculator:
     saved_answer = 0
     cur_operator = ''
     show_help_msg = True
-    show_power_off_msg = True    
+    show_power_off_msg = True
+    is_degree = True
 
     def __init__(self):
         pass
@@ -44,6 +45,8 @@ ____________________________
         elif enter[:4] == 'help':
             page = enter[5:]
             self.get_help(int(page) if page.isdigit() else 1)
+        elif enter[:7] == 'setting':
+            self.get_settings()
         elif enter in cmdinfos.clear_info.enter_options:
             self.answer = self.saved_answer = 0
             self.cur_operator = ''
@@ -61,7 +64,7 @@ ____________________________
             else:
                 self.answer = extra_math.get_math_val(enter)
             self.cur_operator = ''
-        elif 'hide' in enter or 'show' in enter:
+        elif enter[0:4] == 'hide' or enter[0:4] == 'show':
             if enter in cmdinfos.show_help_msg_info.enter_options:
                 self.show_help_msg = True
             elif enter in cmdinfos.hide_help_msg_info.enter_options:
@@ -70,6 +73,12 @@ ____________________________
                 self.show_power_off_msg = True
             elif enter in cmdinfos.hide_power_off_msg_info.enter_options:
                 self.show_power_off_msg = False
+        elif enter[0:4] == 'mode':
+            which_mode = enter[5:]
+            if which_mode[0:3] == 'deg':
+                self.is_degree = True
+            elif which_mode[0:3] == 'rad':
+                self.is_degree = False
         else:
             self.saved_answer = self.answer
             if len(enter.split(' ')) > 1:
@@ -102,6 +111,9 @@ ____________________________
             elif enter in cmdinfos.tan_info.enter_options:
                 self.cur_operator = 'tan'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
+            elif enter in cmdinfos.natural_log_info.enter_options:
+                self.cur_operator = 'ln'
+                self.answer = self.operate(self.saved_answer, self.cur_operator)
         return True
 
     def operate(self, num1, operator, num2=0):
@@ -127,12 +139,12 @@ ____________________________
                 else:
                     input("\nType Error: The number inputted needs to be an integer.\nPress enter to continue...")
                     return 0
-            elif operator == 'sin':
-                return np.sin(num1)
-            elif operator == 'cos':
-                return np.cos(num1)
-            elif operator == 'tan':
-                return np.tan(num1)
+            elif operator == 'sin' or operator == 'cos' or operator == 'tan':
+                return extra_math.get_trig(num1, operator, self.is_degree)
+            elif operator == 'ln':
+                if num1 == 0:
+                    raise ZeroDivisionError
+                return np.log(num1)
         except OverflowError:
             input("\nOverflow Error: The resulting value is too large.\nPress enter to continue...")
             return 0
@@ -161,4 +173,19 @@ ___________________________________________________________________________
 """)
         for i in range((page-1)*3, len(cmdinfos.cmdinfos) if page*3>len(cmdinfos.cmdinfos) else page*3):
                 print(cmdinfos.cmdinfos[i])
+        input("Press enter to continue...")
+
+    def get_settings(self):
+        setting_mode = 'degree' if self.is_degree else 'radian'
+        setting_help_msg = 'on' if self.show_help_msg else 'off'
+        setting_power_msg = 'on' if self.show_power_off_msg else 'off'
+        print(f"""
+___________________________________________________________________________
+
+                                Settings
+                    Mode:                   {setting_mode}
+                    Help Message:           {setting_help_msg}
+                    Power Off Message:      {setting_power_msg}
+___________________________________________________________________________
+""")
         input("Press enter to continue...")
