@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 from cmdinfo import CmdInfo
 
 class Calculator:
@@ -17,6 +18,11 @@ class Calculator:
         'Power Off',
         ['off', 'stop', 'exit'],
         "powers off calculator"
+    )
+    number_info = CmdInfo(
+        'Number',
+        ['(number)'],
+        "sets number to calculator or use in calculation"
     )
     addition_info = CmdInfo(
         'Addition',
@@ -66,6 +72,8 @@ class Calculator:
 
     cmdinfos = [
         help_info,
+        power_off_info,
+        number_info,
         addition_info,
         subtraction_info,
         multiplication_info,
@@ -110,7 +118,10 @@ ____________________________
         elif enter[:4] == 'help':
             page = enter[5:]
             self.get_help(int(page) if page.isdigit() else 1)
-        elif enter.isnumeric() or (enter.count('.') == 1 and enter.replace('.', '').isnumeric()):
+        elif enter.isnumeric() or \
+            (enter.count('.')==1 and enter.replace('.', '').isnumeric()) or \
+            (enter[0]=='-' and (enter[1:].isnumeric() or \
+            enter[1:].count('.')==1 and enter[1:].replace('.', '').isnumeric())):
             if self.cur_operator != '':
                 self.answer = self.operate(self.saved_answer, self.cur_operator, float(enter))
             else:
@@ -156,9 +167,12 @@ ____________________________
             elif operator == 'exponent':
                 return num1 ** num2
         except OverflowError:
-            input("\nError: The resulting value is too large.\nPress enter to continue...")
+            input("\nOverflow Error: The resulting value is too large.\nPress enter to continue...")
             return 0
+        except ZeroDivisionError:
+            input("\nZero Division Error: I think that would be infinity...don't do that...\nPress enter to continue...")
         except:
+            print("Unexpected error:", sys.exc_info()[0])
             return 0
 
     def get_help(self, page):
