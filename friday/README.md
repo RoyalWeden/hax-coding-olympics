@@ -5,7 +5,7 @@ $ python path/to/src/main.py
 ```
 In the calculator there is an easy way for you to access help for functions:
 ```
-: help (optional: page number)
+: help (optional: page number or function)
 ```
 ## Example Commands
 #### Addition #1
