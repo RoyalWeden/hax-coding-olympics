@@ -4,7 +4,7 @@ This calculator provides a lot of the normal functionality that you would expect
 $ python path/to/src/main.py
 ```
 In the calculator there is an easy way for you to access help for functions:
-```py
+```
 : help (optional: page number)
 ```
 ## Example Commands
@@ -43,4 +43,13 @@ These calculator commands are exectued from left to right, so you may enter a lo
 ```py
 : 13 + 4 - 15 * 16 ** 3 / 5 - 25
 ```
-One thing you may notice after executing this is that it does not follow the rules of order of operations. Unfortunately, this calculator does not use order of operations in its calculations, however, this may be implemented in the future, so stay tuned.
+One thing you may notice after executing this is that it does not follow the rules of order of operations.
+<table>
+    <tr>
+        <th>Expected Answer</th>
+        <th>Resulted Answer</th>
+    </tr>
+    <td><samp>-12296</td>
+    <td><samp>6528.6</td>
+</table>
+Unfortunately, this calculator does not use order of operations in its calculations, however, this may be implemented in the future, so stay tuned.

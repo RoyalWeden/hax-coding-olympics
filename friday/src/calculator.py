@@ -13,82 +13,110 @@ class Calculator:
     help_info = CmdInfo(
         'Help',
         ['help', 'help (page #)'],
-        "get help on commands"
+        "get help on commands",
+        ["help", "help 3", "help 5"]
     )
     power_off_info = CmdInfo(
         'Power Off',
         ['off', 'stop', 'exit'],
-        "powers off calculator"
+        "powers off calculator",
+        ["off", "exit"]
     )
     number_info = CmdInfo(
         'Number',
         ['(number)'],
-        "sets number to calculator or use in calculation"
+        "sets number to calculator or use in calculation",
+        ["5", "134"]
     )
     addition_info = CmdInfo(
         'Addition',
         ['+', 'add', 'plus'],
-        "adds two numbers together"
+        "adds two numbers together",
+        ["3 + 5", "1 plus 1"]
     )
     subtraction_info = CmdInfo(
         'Subtraction',
         ['-', 'subtract', 'minus'],
-        "subtracts two numbers"
+        "subtracts two numbers",
+        ["5 - 9", "100 minus 15"]
     )
     multiplication_info = CmdInfo(
         'Multiplication',
         ['*', 'multiply', 'times', 'of'],
-        "multiplies two numbers together"
+        "multiplies two numbers together",
+        ["1 * 34", "13 times 15"]
     )
     division_info = CmdInfo(
         'Division',
         ['/', 'divide'],
-        "divides two numbers."
+        "divides two numbers.",
+        ["2 / 6", "15 divide 124"]
     )
     exponent_info = CmdInfo(
         'Exponent',
         ['**', '^', 'exponent', 'power'],
-        "set one number to the power of another"
+        "set one number to the power of another",
+        ["42 ** 2", "2 ^ 8"]
+    )
+    sqrt_info = CmdInfo(
+        'Square Root',
+        ['sqrt', 'squareroot'],
+        "get the square root of a number",
+        ["5 sqrt", "100 sqrt"]
+    )
+    root_info = CmdInfo(
+        'Root',
+        ['root'],
+        "get the root of a number",
+        ["3 root 8", "15 root 225"]
     )
     factorial_info = CmdInfo(
         'Factorial',
         ['!', 'factorial'],
-        "get the factorial of a number"
+        "get the factorial of a number",
+        ["5 !", "10 factorial"]
     )
     sin_info = CmdInfo(
         'Sin',
         ['sin'],
-        "get the trigonometric sin of a number"
+        "get the trigonometric sin of a number",
+        ["90 sin"]
     )
     cos_info = CmdInfo(
         'Cosine',
         ['cos', 'cosine'],
-        "get the trigonometric cosine of a number"
+        "get the trigonometric cosine of a number",
+        ["90 cos"]
     )
     tan_info = CmdInfo(
         'Tangent',
         ['tan', 'tangent'],
-        "get the trigonometric tangent of a number"
+        "get the trigonometric tangent of a number",
+        ["90 tan"]
     )
     show_help_msg_info = CmdInfo(
         'Show Help Message',
         ['show help msg'],
-        "shows help message on calculator"
+        "shows help message on calculator",
+        ["show help msg"]
     )
     hide_help_msg_info = CmdInfo(
         'Hide Help Message',
         ['hide help msg'],
-        "hides help message on calculator"
+        "hides help message on calculator",
+        ["hide help msg"]
     )
     show_power_off_msg_info = CmdInfo(
         'Show Power Off Message',
         ['show poweroff msg'],
-        "shows power off message on calculator"
+        "shows power off message on calculator",
+        ["show poweroff msg"]
     )
     hide_power_off_msg_info = CmdInfo(
         'Hide Power Off Message',
         ['hide poweroff msg'],
-        "hides power off message on calculator"
+        "hides power off message on calculator",
+        ["hide poweroff msg"]
     )
 
     cmdinfos = [
@@ -100,6 +128,8 @@ class Calculator:
         multiplication_info,
         division_info,
         exponent_info,
+        sqrt_info,
+        root_info,
         factorial_info,
         sin_info,
         cos_info,
@@ -176,6 +206,11 @@ ____________________________
                 self.cur_operator = 'divide'
             elif enter in self.exponent_info.enter_options:
                 self.cur_operator = 'exponent'
+            elif enter in self.sqrt_info.enter_options:
+                self.cur_operator = 'sqrt'
+                self.answer = self.operate(self.saved_answer, self.cur_operator)
+            elif enter in self.root_info.enter_options:
+                self.cur_operator = 'root'
             elif enter in self.factorial_info.enter_options:
                 self.cur_operator = 'factorial'
                 self.answer = self.operate(self.saved_answer, self.cur_operator)
@@ -203,6 +238,10 @@ ____________________________
                 return num1 / num2
             elif operator == 'exponent':
                 return num1 ** num2
+            elif operator == 'sqrt':
+                return np.sqrt(num1)
+            elif operator == 'root':
+                return num2 ** (1 / num1)
             elif operator == 'factorial':
                 if int(num1) == num1:
                     return extra_math.factorial(int(num1))
@@ -237,7 +276,8 @@ ___________________________________________________________________________
             print(f"""
 ___________________________________________________________________________
 
-                              Help Page {page} of {int(np.ceil(len(self.cmdinfos)/3))}            
+                            Help Page {page} of {int(np.ceil(len(self.cmdinfos)/3))}            
+___________________________________________________________________________
 ___________________________________________________________________________
 """)
         for i in range((page-1)*3, len(self.cmdinfos) if page*3>len(self.cmdinfos) else page*3):
