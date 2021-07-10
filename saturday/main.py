@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+from pygame_objects import PGObject, PGMouse, PGButton, PGText
 
 pygame.mixer.init()
 pygame.init()
@@ -17,9 +18,35 @@ dim = (screen.get_width(), screen.get_height()) # (width, height)
 
 smallfont = pygame.font.SysFont('Corbel', 35)
 
-easy_text = smallfont.render('Easy', True, color_black)
-
 easy_sound = pygame.mixer.Sound(os.path.join(sound_path, 'that_was_easy.wav'))
+
+def play_easy_sound():
+    pygame.mixer.Sound.stop(easy_sound)
+    pygame.mixer.Sound.play(easy_sound)
+    print('Played: That was easy')
+
+main_mouse = PGMouse()
+easy_button = PGButton(
+    screen,
+    main_mouse,
+    color_red,
+    (dim[0]/2, dim[1]/2),
+    (240, 80),
+    play_easy_sound
+)
+easy_text = PGText(
+    screen,
+    smallfont,
+    'Easy',
+    color_black,
+    loc_obj=easy_button
+)
+
+game_objs:list[PGObject] = [
+    main_mouse,
+    easy_button,
+    easy_text
+]
 
 while True:
     for event in pygame.event.get():
@@ -27,16 +54,11 @@ while True:
             pygame.quit()
         
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if (dim[0]/2-120)<=mouse[0]<=(dim[0]/2+120) and (dim[1]/2-40)<=mouse[1]<=(dim[1]/2+40):
-                pygame.mixer.Sound.stop(easy_sound)
-                pygame.mixer.Sound.play(easy_sound)
+            easy_button.on_click()
 
     screen.fill(color_white)
-
-    mouse = pygame.mouse.get_pos() # (x, y)
-
-    pygame.draw.rect(screen, color_red, [dim[0]/2-120, dim[1]/2-40, 240, 80])
-
-    screen.blit(easy_text, (dim[0]/2-35, dim[1]/2-20))
+    
+    for game_obj in game_objs:
+        game_obj.render()
 
     pygame.display.update()
