@@ -1,6 +1,7 @@
 {
     "python.analysis.extraPaths": [
         "./friday/src",
-        "./saturday"
+        "./saturday",
+        "./sunday/src"
     ]
 }
