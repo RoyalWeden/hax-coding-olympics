@@ -26,6 +26,29 @@ def play_easy_sound():
     pygame.mixer.Sound.stop(easy_sound)
     pygame.mixer.Sound.play(easy_sound)
     print('Played: That was easy')
+    new_btn = PGButton(
+        screen,
+        main_mouse,
+        color_red,
+        (dim[0]/2, dim[1]/2),
+        (240, 80),
+        play_easy_sound
+    )
+    new_txt = PGText(
+        screen,
+        smallfont,
+        'Easy',
+        color_black,
+        loc_obj=new_btn
+    )
+    new_dir = (random.choice([-1,1]), random.choice([-1,1]))
+    new_speed = random.random()*10+.1
+    while new_dir == easy_button_dirs[0]:
+        new_dir = (random.choice([-1,1]), random.choice([-1,1]))
+    easy_buttons.append(new_btn)
+    easy_texts.append(new_txt)
+    easy_button_dirs.append(new_dir)
+    easy_button_speeds.append(new_speed)
 
 main_mouse = PGMouse()
 easy_button = PGButton(
@@ -45,6 +68,16 @@ easy_text = PGText(
 )
 
 dir = (random.choice([-1,1]), random.choice([-1,1]))
+speed = random.random()*10+.1
+
+easy_buttons = []
+easy_texts = []
+easy_button_dirs = []
+easy_button_speeds = []
+easy_buttons.append(easy_button)
+easy_texts.append(easy_text)
+easy_button_dirs.append(dir)
+easy_button_speeds.append(speed)
 
 while True:
     for event in pygame.event.get():
@@ -52,15 +85,18 @@ while True:
             pygame.quit()
         
         if event.type == pygame.MOUSEBUTTONDOWN:
-            easy_button.on_click()
+            for i in range(len(easy_buttons)):
+                easy_buttons[i].on_click()
 
     screen.fill(color_white)
     
-    easy_button.render()
-    easy_text.render()
+    for i in range(len(easy_buttons)):
+        easy_buttons[i].render()
+        easy_texts[i].render()
 
-    easy_button.move(dir)
+        easy_buttons[i].move(easy_button_dirs[i], easy_button_speeds[i])
+        easy_button_dirs[i] = easy_buttons[i].in_bounds_dir(easy_button_dirs[i])
+
     time.sleep(.01)
-    dir = easy_button.in_bounds_dir(dir)
 
     pygame.display.update()

@@ -49,8 +49,8 @@ class PGButton(PGObject):
             (self.pos()[1]-self.size()[1]/2)<=self.mouse.pos()[1]<=(self.pos()[1]+self.size()[1]/2):
                 self.click_event()
 
-    def move(self, vec:tuple):
-        self.loc = (self.pos()[0] + vec[0], self.pos()[1] + vec[1])
+    def move(self, vec:tuple, spd:float):
+        self.loc = (self.pos()[0] + vec[0] * spd, self.pos()[1] + vec[1] * spd)
 
     def pos(self):
         return self.loc
