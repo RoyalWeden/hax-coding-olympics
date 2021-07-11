@@ -101,10 +101,40 @@ class TextBox(GameObject):
                 self.screen,
                 self.border_color,
                 [
-                    self.pos()[0] - self.size()[0] / 2 - self.border_thickness,
-                    self.pos()[1] - self.size()[1] / 2 + self.border_thickness * 2,
+                    self.screen.get_width() - self.pos()[0] + self.border_thickness * 2,
+                    self.pos()[1] - self.text_size()[1] / 2 + self.border_thickness * 2,
                     self.border_thickness,
                     self.size()[1] + self.border_thickness * 2
+                ]
+            )
+            pygame.draw.rect(
+                self.screen,
+                self.border_color,
+                [
+                    self.pos()[0] - self.border_thickness,
+                    self.pos()[1] - self.text_size()[1] / 2 + self.border_thickness * 2,
+                    self.border_thickness,
+                    self.size()[1] + self.border_thickness * 2
+                ]
+            )
+            pygame.draw.rect(
+                self.screen,
+                self.border_color,
+                [
+                    self.pos()[0] - self.border_thickness,
+                    self.pos()[1] - self.border_thickness * 2,
+                    self.size()[0] + self.border_thickness * 2,
+                    self.border_thickness
+                ]
+            )
+            pygame.draw.rect(
+                self.screen,
+                self.border_color,
+                [
+                    self.pos()[0] - self.border_thickness,
+                    self.pos()[1] + self.text_size()[1] + self.border_thickness * 2,
+                    self.size()[0] + self.border_thickness * 2,
+                    self.border_thickness
                 ]
             )
 
