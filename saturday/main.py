@@ -2,12 +2,14 @@ import pygame
 import sys
 import os
 from pygame_objects import PGObject, PGMouse, PGButton, PGText
+import time
+import random
 
 pygame.mixer.init()
 pygame.init()
 sound_path = 'saturday/sounds'
 
-res = (720, 720)
+res = (900, 600)
 screen = pygame.display.set_mode(res)
 
 color_white = (255, 255, 255)
@@ -42,11 +44,7 @@ easy_text = PGText(
     loc_obj=easy_button
 )
 
-game_objs:list[PGObject] = [
-    main_mouse,
-    easy_button,
-    easy_text
-]
+dir = (random.choice([-1,1]), random.choice([-1,1]))
 
 while True:
     for event in pygame.event.get():
@@ -58,7 +56,11 @@ while True:
 
     screen.fill(color_white)
     
-    for game_obj in game_objs:
-        game_obj.render()
+    easy_button.render()
+    easy_text.render()
+
+    easy_button.move(dir)
+    time.sleep(.01)
+    dir = easy_button.in_bounds_dir(dir)
 
     pygame.display.update()
