@@ -17,7 +17,8 @@ class Calculator:
         'tan',
         'ln',
         'log',
-        '!'
+        '!',
+        'abs'
     ]
 
     def __init__(self):
@@ -129,6 +130,8 @@ class Calculator:
                 return num1*np.log(num2)/np.log(10)
             if operation=='!':
                 return factorial(num1)*num2
+            if operation=='abs':
+                return num1*np.abs(num2)
 
         except ZeroDivisionError:
             print('Error: Divide by zero')

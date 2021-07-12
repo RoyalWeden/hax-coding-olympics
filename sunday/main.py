@@ -293,6 +293,16 @@ btn_factorial = Button(
     color_white,
     lambda: calculator.enter('!')
 )
+btn_abs = Button(
+    screen,
+    (res[0]/2-235, res[1]/2-10),
+    color_black,
+    (50, 50),
+    'abs',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('abs')
+)
 
 
 btn_equal = Button(
@@ -342,6 +352,7 @@ gameobjects: list[GameObject] = [
     btn_ln,
     btn_log,
     btn_factorial,
+    btn_abs,
     btn_equal,
     text_answer
 ]
