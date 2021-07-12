@@ -81,3 +81,9 @@ class Calculator:
             return num1**num2
 
         return num1
+
+    def get_calc_str(self):
+        return str(self.ans) \
+            if len(self.calculation)==0 \
+                else ('ANS ' if self.calculation[0] in self.operations else '') + \
+                    ' '.join([str(x) for x in self.calculation])

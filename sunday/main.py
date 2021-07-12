@@ -121,9 +121,9 @@ btn_zero = Button(
 
 btn_plus = Button(
     screen,
-    (res[0]/2-330, res[1]/2-55-110),
+    (res[0]/2-400, res[1]/2-175),
     color_black,
-    (100, 100),
+    (50, 50),
     '+',
     smallfont,
     color_white,
@@ -131,9 +131,9 @@ btn_plus = Button(
 )
 btn_minus = Button(
     screen,
-    (res[0]/2-330, res[1]/2-55),
+    (res[0]/2-345, res[1]/2-175),
     color_black,
-    (100, 100),
+    (50, 50),
     '-',
     smallfont,
     color_white,
@@ -141,9 +141,9 @@ btn_minus = Button(
 )
 btn_times = Button(
     screen,
-    (res[0]/2-330, res[1]/2+55),
+    (res[0]/2-290, res[1]/2-175),
     color_black,
-    (100, 100),
+    (50, 50),
     'x',
     smallfont,
     color_white,
@@ -151,20 +151,30 @@ btn_times = Button(
 )
 btn_divide = Button(
     screen,
-    (res[0]/2-330, res[1]/2+55+110),
+    (res[0]/2-235, res[1]/2-175),
     color_black,
-    (100, 100),
+    (50, 50),
     '÷',
     smallfont,
     color_white,
     lambda: calculator.enter('/')
+)
+btn_power = Button(
+    screen,
+    (res[0]/2-400, res[1]/2-120),
+    color_black,
+    (50, 50),
+    '^',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('^')
 )
 
 btn_equal = Button(
     screen,
     (res[0]/2+275, res[1]/2),
     color_black,
-    (100, 100),
+    (50, 50),
     '=',
     smallfont,
     color_white,
@@ -194,6 +204,7 @@ gameobjects: list[GameObject] = [
     btn_minus,
     btn_times,
     btn_divide,
+    btn_power,
     btn_equal,
     text_answer
 ]
@@ -210,7 +221,7 @@ while True:
 
     screen.fill(color_white)
 
-    text_answer.set_text(str(calculator.ans) if len(calculator.calculation)==0 else ' '.join([str(x) for x in calculator.calculation]))
+    text_answer.set_text(calculator.get_calc_str())
 
     for obj in gameobjects:
         obj.render()
