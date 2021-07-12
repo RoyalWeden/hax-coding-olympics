@@ -110,13 +110,23 @@ btn_nine = Button(
 )
 btn_zero = Button(
     screen,
-    (res[0]/2, res[1]/2+220),
+    (res[0]/2-110, res[1]/2+220),
     color_black,
     (100, 100),
     '0',
     smallfont,
     color_white,
     lambda: calculator.enter(0)
+)
+btn_negative = Button(
+    screen,
+    (res[0]/2+110, res[1]/2+220),
+    color_black,
+    (100, 100),
+    '(-)',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('-')
 )
 
 btn_plus = Button(
@@ -169,6 +179,47 @@ btn_power = Button(
     color_white,
     lambda: calculator.enter('^')
 )
+btn_pi = Button(
+    screen,
+    (res[0]/2-345, res[1]/2-120),
+    color_black,
+    (50, 50),
+    'π',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('π')
+)
+btn_e = Button(
+    screen,
+    (res[0]/2-290, res[1]/2-120),
+    color_black,
+    (50, 50),
+    'e',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('e')
+)
+btn_sqrt = Button(
+    screen,
+    (res[0]/2-235, res[1]/2-120),
+    color_black,
+    (50, 50),
+    '√',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('√')
+)
+btn_root = Button(
+    screen,
+    (res[0]/2-400, res[1]/2-65),
+    color_black,
+    (50, 50),
+    '▀√',
+    smallfont,
+    color_white,
+    lambda: calculator.enter(' √')
+)
+
 
 btn_equal = Button(
     screen,
@@ -200,11 +251,16 @@ gameobjects: list[GameObject] = [
     btn_eight,
     btn_nine,
     btn_zero,
+    btn_negative,
     btn_plus,
     btn_minus,
     btn_times,
     btn_divide,
     btn_power,
+    btn_pi,
+    btn_e,
+    btn_sqrt,
+    btn_root,
     btn_equal,
     text_answer
 ]
