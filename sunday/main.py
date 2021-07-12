@@ -283,6 +283,16 @@ btn_log = Button(
     color_white,
     lambda: calculator.enter('log')
 )
+btn_factorial = Button(
+    screen,
+    (res[0]/2-290, res[1]/2-10),
+    color_black,
+    (50, 50),
+    '!',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('!')
+)
 
 
 btn_equal = Button(
@@ -331,6 +341,7 @@ gameobjects: list[GameObject] = [
     btn_tan,
     btn_ln,
     btn_log,
+    btn_factorial,
     btn_equal,
     text_answer
 ]

@@ -16,7 +16,8 @@ class Calculator:
         'cos',
         'tan',
         'ln',
-        'log'
+        'log',
+        '!'
     ]
 
     def __init__(self):
@@ -98,6 +99,8 @@ class Calculator:
                 return num1
 
             if num2==None:
+                if operation=='!':
+                    return factorial(num1)
                 return num1
             
             if operation=='+':
@@ -124,6 +127,8 @@ class Calculator:
                 return num1*np.log(num2)
             if operation=='log':
                 return num1*np.log(num2)/np.log(10)
+            if operation=='!':
+                return factorial(num1)*num2
 
         except ZeroDivisionError:
             print('Error: Divide by zero')
@@ -140,3 +145,11 @@ class Calculator:
             if len(self.calculation)==0 \
                 else ('ANS ' if self.calculation[0] in self.operations else '') + \
                     ' '.join([str(x) for x in self.calculation]).replace('  ', ' ')
+
+
+
+def factorial(x):
+    total = 1
+    for i in range(1, x+1):
+        total *= i
+    return total
