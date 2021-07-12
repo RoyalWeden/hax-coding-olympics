@@ -18,6 +18,10 @@ smallfont = pygame.font.SysFont('Corbel', 35)
 
 mouse = pygame.mouse
 
+def add_ans_to_calc():
+    for d in str(int(calculator.ans)):
+        calculator.enter(int(d))
+
 btn_one = Button(
     screen,
     (res[0]/2-110, res[1]/2-110),
@@ -117,6 +121,16 @@ btn_zero = Button(
     smallfont,
     color_white,
     lambda: calculator.enter(0)
+)
+btn_ans = Button(
+    screen,
+    (res[0]/2, res[1]/2+220),
+    color_black,
+    (100, 100),
+    'ANS',
+    smallfont,
+    color_white,
+    lambda: add_ans_to_calc()
 )
 btn_negative = Button(
     screen,
@@ -219,6 +233,56 @@ btn_root = Button(
     color_white,
     lambda: calculator.enter(' √')
 )
+btn_sin = Button(
+    screen,
+    (res[0]/2-345, res[1]/2-65),
+    color_black,
+    (50, 50),
+    'sin',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('sin')
+)
+btn_cos = Button(
+    screen,
+    (res[0]/2-290, res[1]/2-65),
+    color_black,
+    (50, 50),
+    'cos',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('cos')
+)
+btn_tan = Button(
+    screen,
+    (res[0]/2-235, res[1]/2-65),
+    color_black,
+    (50, 50),
+    'tan',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('tan')
+)
+btn_ln = Button(
+    screen,
+    (res[0]/2-400, res[1]/2-10),
+    color_black,
+    (50, 50),
+    'ln',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('ln')
+)
+btn_log = Button(
+    screen,
+    (res[0]/2-345, res[1]/2-10),
+    color_black,
+    (50, 50),
+    'log',
+    smallfont,
+    color_white,
+    lambda: calculator.enter('log')
+)
 
 
 btn_equal = Button(
@@ -251,6 +315,7 @@ gameobjects: list[GameObject] = [
     btn_eight,
     btn_nine,
     btn_zero,
+    btn_ans,
     btn_negative,
     btn_plus,
     btn_minus,
@@ -261,6 +326,11 @@ gameobjects: list[GameObject] = [
     btn_e,
     btn_sqrt,
     btn_root,
+    btn_sin,
+    btn_cos,
+    btn_tan,
+    btn_ln,
+    btn_log,
     btn_equal,
     text_answer
 ]

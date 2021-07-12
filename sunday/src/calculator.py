@@ -11,7 +11,12 @@ class Calculator:
         '/',
         '^',
         '√',
-        ' √'
+        ' √',
+        'sin',
+        'cos',
+        'tan',
+        'ln',
+        'log'
     ]
 
     def __init__(self):
@@ -83,7 +88,7 @@ class Calculator:
                 num2 = None if x+1==len(self.calculation) else self.calculation[x+1]
             answer = self.operate(num1, operator, num2)
             
-        self.ans = answer
+        self.ans = np.round(answer, 8)
         self.calculation = []
         print(f'Calculated: {self.ans}')
 
@@ -109,6 +114,16 @@ class Calculator:
                 return num1*np.sqrt(num2)
             if operation==' √':
                 return num2**(1/num1)
+            if operation=='sin':
+                return num1*np.sin(num2)
+            if operation=='cos':
+                return num1*np.cos(num2)
+            if operation=='tan':
+                return num1*np.tan(num2)
+            if operation=='ln':
+                return num1*np.log(num2)
+            if operation=='log':
+                return num1*np.log(num2)/np.log(10)
 
         except ZeroDivisionError:
             print('Error: Divide by zero')
